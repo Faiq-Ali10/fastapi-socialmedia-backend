@@ -65,13 +65,17 @@ A **FastAPI-based backend** for a simple social media clone application. This pr
 ```bash
 git clone https://github.com/your-username/fastapi-socialmedia-backend.git
 cd fastapi-socialmedia-backend
-
-### 2. Install dependencies
-
+2. Install dependencies
+bash
+Copy
+Edit
 pip install -r requirements.txt
+3. Setup environment variables
+Create a .env file in the root directory and add the following:
 
-### 3. Setup environment variables
-
+env
+Copy
+Edit
 DATABASE_HOSTNAME=localhost
 DATABASE_PORT=5432
 DATABASE_NAME=your_db_name
@@ -80,9 +84,6 @@ DATABASE_PASSWORD=your_db_password
 SECRET_KEY=your_secret_key_here
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
-
-👨‍💻 Author
-Faiq Ali
 
 GitHub: https://github.com/Faiq-Ali10
 LinkedIn: https://www.linkedin.com/in/faiq-ali-83462a255
