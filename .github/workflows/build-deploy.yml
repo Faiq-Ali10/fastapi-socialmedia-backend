@@ -6,9 +6,9 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - names: pulling get repo
+      - name: pulling git repo
         uses: actions/checkout@v4
-      - names: Install python version 3.11
+      - name: Install python version 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11' 
