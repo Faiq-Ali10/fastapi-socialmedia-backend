@@ -27,6 +27,7 @@ A **FastAPI-based backend** for a simple social media clone application. This pr
 
 ## 📁 Project Structure
 
+```text
 .
 ├── app/
 │   ├── __init__.py
