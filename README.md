@@ -48,10 +48,8 @@ A **FastAPI-based backend** for a simple social media clone application. This pr
 │   ├── test_posts.py
 │   ├── test_users.py
 │   └── test_votes.py
-├── tests/...
 ├── Dockerfile
 ├── requirements.txt
-├── .env (not uploaded)
 ├── docker-compose.yml
 ├── alembic.ini
 ├── .gitignore
