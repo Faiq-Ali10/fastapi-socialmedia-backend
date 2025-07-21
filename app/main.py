@@ -7,7 +7,7 @@ from app.routes.auth import router as auth_router
 from app.routes.votes import router as vote_router
 from fastapi.middleware.cors import CORSMiddleware
 
-models.Base.metadata.create_all(bind = engine)
+#models.Base.metadata.create_all(bind = engine)
 
 app = FastAPI()
 

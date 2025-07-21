@@ -4,28 +4,24 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
     environment:
       name: testing
-
     env:
+      DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
+      DATABASE_PORT: ${{secrets.DATABASE_PORT}}
+      DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+      DATABASE_NAME: ${{secrets.DATABASE_NAME}}
+      DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
       ALGORITHM: ${{secrets.ALGORITHM}}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
-      DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
-      DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
-      DATABASE_HOSTNAME: localhost
-      DATABASE_PORT: 5432
-      DATABASE_NAME: ${{secrets.DATABASE_NAME}}
-      DATABASE_NAME_Test: ${{secrets.DATABASE_NAME_Test}}
-      SECRET_KEY: ${{secrets.SECRET_KEY}}
 
     services:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: ${{secrets.DATABASE_USERNAME}}
           POSTGRES_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+          POSTGRES_DB: ${{secrets.DATABASE_NAME}}_test
         ports:
           - 5432:5432
         options: >-
@@ -34,43 +30,17 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+      - name: pulling git repo
+        uses: actions/checkout@v2
+      - name: Install python version 3.9
+        uses: actions/setup-python@v2
         with:
-          python-version: '3.11'
-
-      - name: Upgrade pip
+          python-version: "3.9"
+      - name: update pip
         run: python -m pip install --upgrade pip
-
-      - name: Install dependencies
+      - name: install all dependencies
         run: pip install -r requirements.txt
-
-      - name: Install PostgreSQL client
-        run: sudo apt-get update && sudo apt-get install -y postgresql-client
-
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          for i in {1..10}; do
-            psql -h localhost -U ${{secrets.DATABASE_USERNAME}} -d postgres -c '\q' && break
-            echo "Waiting for PostgreSQL to be ready..."
-            sleep 3
-          done
-        env:
-          PGPASSWORD: ${{secrets.DATABASE_PASSWORD}}
-
-      - name: Create main and test databases
-        run: |
-          psql -h localhost -U ${{secrets.DATABASE_USERNAME}} -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = '${{secrets.DATABASE_NAME}}'" | grep -q 1 || \
-          psql -h localhost -U ${{secrets.DATABASE_USERNAME}} -d postgres -c "CREATE DATABASE ${{secrets.DATABASE_NAME}};"
-
-          psql -h localhost -U ${{secrets.DATABASE_USERNAME}} -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = '${{secrets.DATABASE_NAME_Test}}'" | grep -q 1 || \
-          psql -h localhost -U ${{secrets.DATABASE_USERNAME}} -d postgres -c "CREATE DATABASE ${{secrets.DATABASE_NAME_Test}};"
-        env:
-          PGPASSWORD: ${{secrets.DATABASE_PASSWORD}}
-
-      - name: Run tests
+      - name: test with pytest
         run: pytest
