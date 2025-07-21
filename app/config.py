@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     DATABASE_NAME : str = "any" 
     TOKEN_BYTE : int = 0
     SECRET_KEY : str = "any"
+    DATABASE_NAME_Test : str = "any"
 
     model_config: SettingsConfigDict = {
         "env_file": ".env",
