@@ -21,6 +21,7 @@ graphql-relay
 greenlet
 h11
 httptools
+httpx
 idna
 itsdangerous
 Jinja2
