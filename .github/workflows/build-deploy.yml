@@ -14,6 +14,7 @@ jobs:
       DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
       DATABASE_PORT: ${{secrets.DATABASE_PORT}}
       DATABASE_NAME: ${{secrets.DATABASE_NAME}}
+      DATABASE_NAME_Test: ${{secrets.DATABASE_NAME_Test}}
       SECRET_KEY: ${{secrets.SECRET_KEY}}
 
     services:
@@ -21,7 +22,7 @@ jobs:
         image: postgres
         env:
           POSTGRES_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
-          POSTGRES_DB: ${{secrets.DATABASE_NAME}}
+          POSTGRES_DB: ${{secrets.DATABASE_NAME_Test}}
         ports:
           - 5432:5432
         options: >-
