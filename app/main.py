@@ -8,8 +8,8 @@ from app.routes.votes import router as vote_router
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-if os.getenv("ENV") != "test":
-    models.Base.metadata.create_all(bind=engine)
+# if os.getenv("ENV") != "test":
+#     models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
